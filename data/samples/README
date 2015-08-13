@@ -1,5 +1,8 @@
-samplesat.txt : 32594 host halos que tienen al menos 2 satelites con 
-vcirc>50km/s y los satelites a una distancia mayor a 10kpc del centro para 
+Los archivos son ascii, tienen 4 columnas x,y,z,mvir. coordenadas en mpc/h y 
+masa en msol. 
+
+samplesat.txt : 32594 host halos que tienen al menos 2 satelites 
+con vcirc>50km/s y los satelites a una distancia mayor a 10kpc del centro para 
 evitar artifacts. Este podria ser nuestro control sample.
 
 samplepair.txt: 5845 host halos en que tienen al menos un par de satelies con 
