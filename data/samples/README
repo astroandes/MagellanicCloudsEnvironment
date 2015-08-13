@@ -1,0 +1,17 @@
+samplesat.txt : 32594 host halos que tienen al menos 2 satelites con 
+vcirc>50km/s y los satelites a una distancia mayor a 10kpc del centro para 
+evitar artifacts. Este podria ser nuestro control sample.
+
+samplepair.txt: 5845 host halos en que tienen al menos un par de satelies con 
+separacion(sep)<60kpc, distancia al host(rhost)>20kpc, diferencia de velocida 
+del par(dv)<300km/s
+
+samplemc1.txt: 154 hots, con 1sigma de los valores de las MCs, 
+sep=23.4+-10kpc, dv=128+-32km/s, velocidad de cada miebro > 
+190km/s(smc=217+-26 y lmc=321+-24), 45<dhost<65kpc(lmc=50+-5 smc=60+-5)
+
+samplemc2.txt: 241 hosts con 2 sigma los valores de las MCs.
+
+Para evitar cualquier efecto producido por las masas de los hosts, removi al 
+azar elementos de los samplessat, samplepair y samplesmc2 para que todos 
+tengan exactamente la misma funcion de masa que el samplemc1.
