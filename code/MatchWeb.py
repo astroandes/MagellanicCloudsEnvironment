@@ -25,9 +25,10 @@ def get_web_data(cosmosim, sample_name="sat"):
     n_bits = 10
     n_size = 2**n_bits
     lbox = 250.0
+    n_web = 256
 
     sample_filename = "../data/samples/sample%s.txt"%(sample_name)
-    tweb_filename="../data/tweb/web_%d_sample%s.dat"%(n_size, sample_name)
+    tweb_filename="../data/tweb/web_%d_sample%s.dat"%(n_web, sample_name)
     
     #load sample data
     halo_data = np.loadtxt(sample_filename)
@@ -39,41 +40,43 @@ def get_web_data(cosmosim, sample_name="sat"):
     iy = np.int_((y_halo/lbox)*n_size)
     iz = np.int_((z_halo/lbox)*n_size)
     print np.size(x_halo), 256**3
+
     
-    # Submit jobs
+    # Submit, get, write
     n_points = np.size(x_halo)
+    n_points = 4
     jobs = np.zeros(n_points, dtype='int')
-    n_points = 2
+    print("n_points in total %d\n"%(n_points))
     for i in range(n_points):
-        query = write_query(ix[i], iy[i], iz[i], n_web=256, n_size=1024)
+        #submit job
+        query = write_query(ix[i], iy[i], iz[i], n_web=n_web, n_size=n_size)
         jobs[i] = cosmosim.run_sql_query(query_string=query)
-        print(jobs[i])
-        
-    # Download data
-    all_data = []
-    for i in range(n_points):
+        print("item %d out of %d"%(i, n_points))
+
+        # Download data        
         headers, data = cosmosim.download(jobid=jobs[i],format='csv')
-        print data
-        all_data.append(data[0])
-        
-    # Write the data to disk
-    fileout = open(tweb_filename, 'w')
 
-    string = "# ID"
-    for item in headers:
-        string = string + " "+item+" "
-    fileout.write(" %s\n"%(string))
+        #write header in first item
+        if(i==0):
+            fileout = open(tweb_filename, 'w')
+            string = "# ID"
+            for item in headers:
+                string = string + " "+item+" "
+            fileout.write(" %s\n"%(string))
+            fileout.close()
 
-    n_lines = len(all_data)
-    for i in range(n_lines):
+        #write data line
+        fileout = open(tweb_filename, 'a')
         string = "%d "%(i)
-        for item in all_data[i]:
+        for item in data[0]:
             string = string + " "+str(item)+" "
-        fileout.write("%s\n"%(string))
-    fileout.close()
+        fileout.write(" %s\n"%(string))
+        fileout.close()
 
+        
+        #delete job
+        #cosmosim.delete_job(jobid=jobs[i])
 
-# In[4]:
 
 from astroquery.cosmosim import CosmoSim
 CS = CosmoSim()
