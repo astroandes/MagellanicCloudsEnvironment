@@ -12,9 +12,9 @@ import matplotlib.pyplot as plt
 
 def write_query(ix, iy, iz, n_web=256, n_size=1024):
     ratio = n_size/n_web
-    query=" select * from Bolshoi.Tweb%d m where floor(m.ix) = %d"%(n_web, floor(ix/ratio))
-    query= query+" and floor(m.iy) = %d"%(floor(iy/ratio))
-    query= query+" and floor(m.iz) = %d"%(floor(iz/ratio))
+    query=" select * from Bolshoi.Tweb%d m where floor(m.ix) = %d"%(n_web, np.floor(ix/ratio))
+    query= query+" and floor(m.iy) = %d"%(np.floor(iy/ratio))
+    query= query+" and floor(m.iz) = %d"%(np.floor(iz/ratio))
     return query
 
 
@@ -35,9 +35,9 @@ def get_web_data(cosmosim, sample_name="sat"):
     y_halo = halo_data[:,1]
     z_halo = halo_data[:,2]
 
-    ix = int_((x_halo/lbox)*n_size)
-    iy = int_((y_halo/lbox)*n_size)
-    iz = int_((z_halo/lbox)*n_size)
+    ix = np.int_((x_halo/lbox)*n_size)
+    iy = np.int_((y_halo/lbox)*n_size)
+    iz = np.int_((z_halo/lbox)*n_size)
     print np.size(x_halo), 256**3
     
     # Submit jobs
